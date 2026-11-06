@@ -46,7 +46,11 @@
 
 ## 3. Dự đoán và thực tế
 
-*Chọn 3 dự đoán `predict(...)` lệch nhiều nhất so với kết quả. Mỗi cái: bạn đoán gì, ra gì, vì sao lệch.*
+1. Với `ml_f1`, em dự đoán F1 của BoW + Logistic Regression chỉ khoảng 0.60, nhưng kết quả thực tế đạt 0.900. Em đã đánh giá thấp hiệu quả của bag-of-words: các từ như “call”, “free”, “reply” và “mobile” là tín hiệu khá mạnh, nên mô hình tuyến tính vẫn phân loại tốt trên bộ dữ liệu này.
+
+2. Với `ml_lr`, Em dự đoán `lr=50` sẽ dao động mạnh hoặc không hội tụ. Thực tế loss chỉ tăng vọt ở những epoch đầu rồi giảm nhanh, cuối cùng xuống khoảng 0.007. Learning rate lớn gây bước cập nhật ban đầu quá mạnh, nhưng với bài toán logistic regression có loss tương đối trơn và dữ liệu này, gradient vẫn điều chỉnh lại được nên mô hình không bị phân kỳ.
+
+3. Với `emb_search`, em dự đoán các tin gần nhất sẽ là ham vì câu truy vấn không chứa những từ spam quen thuộc như “free”, “win” hay “prize”. Thực tế cả 6 kết quả gần nhất đều là spam. Embedding không chỉ so khớp từ khóa mà nhận ra ý nghĩa “được chọn nhận kỳ nghỉ và phản hồi để nhận thưởng” gần với các tin trúng thưởng, nên kết quả khác hẳn dự đoán ban đầu.
 
 ## 4. Phân tích 50 case khó
 
