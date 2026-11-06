@@ -2,21 +2,47 @@
 
 > Đổi tên file này thành `MSSV_HoTen.md` của bạn, ví dụ `2A20260000_NguyenVanAn.md`, rồi điền từng mục. Xoá các dòng hướng dẫn in nghiêng khi xong.
 
-- **2A202603889:**
-- **Họ và tên:**
-- **SEED** (in ở ô đầu notebook):
+- **MSSV:2A202603889**
+- **Họ và tên: Nguyễn Lương Phúc**
+- **SEED** (in ở ô đầu notebook):4609
 
 ## 1. Bằng chứng
 
 | Tệp | Có? |
 | --- | --- |
-| [`day01_lab.ipynb`](day01_lab.ipynb) — notebook đã chạy, còn output | ☐ |
-| [`lab1_report.json`](lab1_report.json) — do ô "Báo cáo cuối" sinh ra | ☐ |
-| [`hand_calc.jpg`](hand_calc.jpg) — ảnh tính tay có các bước | ☐ |
+| [`day01_lab.ipynb`](day01_lab.ipynb) — notebook đã chạy, còn output | Có |
+| [`lab1_report.json`](lab1_report.json) — do ô "Báo cáo cuối" sinh ra | Có |
+| [`hand_calc.jpg`](hand_calc.jpg) — ảnh tính tay có các bước | Có |
 
 ## 2. Kết quả chính
 
-*Chép bảng so sánh cuối Phần 5 (F1 test, F1 SUB 40, p95 ms/tin, USD/1k tin) của chính bạn.*
+                                precision  recall  F1 (test)  F1 (SUB 40)  \
+1. BoW + LogReg (tự code)            0.986   0.828      0.900        0.833   
+2. BoW + MLP (deep learning)         0.953   0.943      0.948        0.923   
+3a. Encoder (MiniLM) + kNN           0.838   0.954      0.892        0.950   
+3b. Encoder (MiniLM) + LogReg        0.966   0.977      0.971        1.000   
+3c. Encoder (MiniLM) + MLP head      0.965   0.954      0.960        0.974   
+4a. LLM nhỏ zero-shot                0.909   1.000      0.952        0.952   
+
+                                 train (s)  tin/s (cả lô)  p50 ms/tin  \
+1. BoW + LogReg (tự code)           10.028      25079.913       0.068   
+2. BoW + MLP (deep learning)         6.089      34125.683       0.190   
+3a. Encoder (MiniLM) + kNN          97.947         23.657      55.520   
+3b. Encoder (MiniLM) + LogReg       98.402         30.797      26.095   
+3c. Encoder (MiniLM) + MLP head     99.444         31.764      42.789   
+4a. LLM nhỏ zero-shot                0.000          1.480     589.485   
+
+                                 p95 ms/tin  USD / 1k tin  
+1. BoW + LogReg (tự code)             0.256         0.000  
+2. BoW + MLP (deep learning)          0.377         0.000  
+3a. Encoder (MiniLM) + kNN           82.878         0.000  
+3b. Encoder (MiniLM) + LogReg        42.599         0.000  
+3c. Encoder (MiniLM) + MLP head      65.272         0.000  
+4a. LLM nhỏ zero-shot              1074.382         0.027  
+• Hàng LLM chỉ đo trên SUB (40 tin) → so sánh chất lượng công bằng bằng cột 'F1 (SUB 40)'.
+• SUB chỉ 40 tin: 1 tin sai đổi F1 vài điểm. Chênh < ~0.05 F1 coi như HOÀ — đừng xếp hạng theo số lẻ.
+• Inference đo TỪ VĂN BẢN THÔ → NHÃN (gồm cả vectorize / encode). p50/p95 = gọi từng tin một, như một request thật.
+• train (s) của 3a/3b/3c = thời gian encoder MiniLM encode tập train (+ train đầu LogReg / MLP); LLM = 0 vì không train. Số đo phụ thuộc CPU/GPU của Colab.
 
 ## 3. Dự đoán và thực tế
 
